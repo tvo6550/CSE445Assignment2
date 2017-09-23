@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientSide.cs" />
+    <Compile Include="ConfirmationTool.cs" />
+    <Compile Include="Driver.cs" />
+    <Compile Include="MultiCellBuffer.cs" />
     <Compile Include="OrderClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerSide.cs" />

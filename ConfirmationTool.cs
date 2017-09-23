@@ -43,6 +43,7 @@ namespace Assignment2
                     if (confirmBuffer[i].getDealer() == dealer)
                     {
                         double total = confirmBuffer[i].getTotal();
+                        confirmBuffer.RemoveAt(i);
                         return total;
                     }
                 }

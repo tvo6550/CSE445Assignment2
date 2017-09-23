@@ -36,7 +36,7 @@ namespace Assignment2
             return p;
         }
 
-        public static void PricingModel(OrderClass order, int stockPrice, int orderAmount)
+        public void pricingModel(OrderClass order, int stockPrice, int orderAmount)
         {
             if(order.getUnitPrice() == 0)
             {
@@ -60,7 +60,7 @@ namespace Assignment2
         public void plantFunc()
         {
             OrderClass order = Decoder.decode(Driver.orderBuffer.getOneCell());
-            PricingModel(order, this.stockPrice, order.getAmount());
+            pricingModel(order, this.stockPrice, order.getAmount());
         }
 
     }

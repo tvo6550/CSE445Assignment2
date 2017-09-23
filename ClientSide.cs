@@ -45,6 +45,7 @@ namespace Assignment2
                 //Pull order from confirmation buffer
                 orderTotal = Driver.confirmBuffer.getConfirm(dealerName);
             }
+            Console.WriteLine("Order for " + dealerName + " at a price of " + orderTotal + " is completed."); 
         }
         public string getDealerName()
         {

@@ -1,1 +1,6 @@
 c:\users\thong vo\documents\visual studio 2013\Projects\Assignment2\Assignment2\bin\Debug\Assignment2.exe.config
+C:\Users\Thong Vo\documents\visual studio 2013\Projects\Assignment2\Assignment2\obj\Debug\Assignment2.csprojResolveAssemblyReference.cache
+C:\Users\Thong Vo\documents\visual studio 2013\Projects\Assignment2\Assignment2\bin\Debug\Assignment2.exe
+C:\Users\Thong Vo\documents\visual studio 2013\Projects\Assignment2\Assignment2\bin\Debug\Assignment2.pdb
+C:\Users\Thong Vo\documents\visual studio 2013\Projects\Assignment2\Assignment2\obj\Debug\Assignment2.exe
+C:\Users\Thong Vo\documents\visual studio 2013\Projects\Assignment2\Assignment2\obj\Debug\Assignment2.pdb
