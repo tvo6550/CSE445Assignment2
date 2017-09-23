@@ -24,6 +24,12 @@ namespace Assignment2
         static Random rng = new Random();
         private int stockPrice = rng.Next(5, 10);
         private static event priceCutEvent priceCut;
+        private static int p = 0;
+
+        public int getP()
+        {
+            return p;
+        }
 
         public static void PricingModel(OrderClass order, int stockPrice, int orderAmount)
         {
@@ -42,6 +48,7 @@ namespace Assignment2
                 curPrice = order.getUnitPrice() - 1;
                 order.setUnitPrice(order.getUnitPrice() - 1);
                 priceCut(prevPrice, curPrice);
+                p += 1;
             }
         }
 
@@ -49,7 +56,6 @@ namespace Assignment2
         {
             OrderClass order = Decoder.decode(Driver.orderBuffer.getOneCell());
             PricingModel(order, this.stockPrice, order.getAmount());
-
         }
 
     }
