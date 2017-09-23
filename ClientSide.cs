@@ -31,6 +31,7 @@ namespace Assignment2
         public Dealer()
         {
             this.dealerName = "dealer" + count.ToString();
+            count++;
             Random rng = new Random();
             cardNo = rng.Next(5000, 7000);
         }
