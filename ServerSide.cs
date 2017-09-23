@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assignment2
 {
-    public delegate void priceCutEvent(double prevPrice, double curPrice);
+    public delegate void priceCutEvent(string plantName, int amount, double prevPrice, double curPrice);
     class ServerSide
     {
     }
@@ -22,10 +22,15 @@ namespace Assignment2
     public class Plant
     {
         static Random rng = new Random();
-        private int stockPrice = rng.Next(5, 10);
+        private int stockPrice; 
         private static event priceCutEvent priceCut;
         private static int p = 0;
-
+        private static int plantId = 0;
+        public Plant()
+        {
+            stockPrice = rng.Next(5, 10);
+            plantId++;
+        }
         public int getP()
         {
             return p;
@@ -47,7 +52,7 @@ namespace Assignment2
                 prevPrice = order.getUnitPrice();
                 curPrice = order.getUnitPrice() - 1;
                 order.setUnitPrice(order.getUnitPrice() - 1);
-                priceCut(prevPrice, curPrice);
+                priceCut(plantId.ToString(), order.getAmount(), prevPrice, curPrice);
                 p += 1;
             }
         }
