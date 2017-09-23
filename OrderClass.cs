@@ -14,7 +14,7 @@ public class OrderClass
     private int cardNo;
     private string receiverId;
     private int amount;
-    private int unitPrice;
+    private double unitPrice;
 
 	public OrderClass()
 	{
@@ -24,7 +24,7 @@ public class OrderClass
         amount = 1;
         unitPrice = -1;
 	}
-    public OrderClass(string senderId, int cardNo, string receiverId, int amount, int unitPrice)
+    public OrderClass(string senderId, int cardNo, string receiverId, int amount, double unitPrice)
     {
         this.senderId = senderId;
         this.cardNo = cardNo;
@@ -56,10 +56,10 @@ public class OrderClass
     public int getAmount(){
         return this.amount;
     }
-    public void setUnitPrice(int unitPrice){
+    public void setUnitPrice(double unitPrice){
         this.unitPrice = unitPrice;
     }
-    public int getUnitPrice(){
+    public double getUnitPrice(){
         return this.unitPrice;
     }
 }
