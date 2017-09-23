@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Assignment2
 {
@@ -35,6 +36,17 @@ namespace Assignment2
             Random rng = new Random();
             cardNo = rng.Next(5000, 7000);
         }
+        public void dealerCheckOrder()
+        {
+            double orderTotal = 0;
+            while (orderTotal == 0)
+            {
+                Thread.Sleep(1000);
+                //Pull order from confirmation buffer
+                orderTotal = Driver.confirmBuffer.getConfirm(dealerName);
+            }
+            Console.Out(orderTotal);
+        }
         public string getDealerName()
         {
             return this.dealerName;
@@ -50,11 +62,11 @@ namespace Assignment2
         {
             this.cardNo = card;
         }
-        public void saleOnCars(string plant, int prevAmt, double prevPrice, double curPrice)
+        public void saleOnCars(string plantName, int prevAmt, double prevPrice, double curPrice)
         {
             //Figure out how many cars to buy
             int curAmt = (int) ((prevAmt * prevPrice) / curPrice);
-            OrderClass newOrder = new OrderClass(dealerName, cardNo, plant, curAmt, curPrice);
+            OrderClass newOrder = new OrderClass(dealerName, cardNo, plantName, curAmt, curPrice);
             Driver.orderBuffer.setOneCell(Encoder.encode(newOrder));
         }
     }
