@@ -45,7 +45,6 @@ namespace Assignment2
                 //Pull order from confirmation buffer
                 orderTotal = Driver.confirmBuffer.getConfirm(dealerName);
             }
-            Console.Out(orderTotal);
         }
         public string getDealerName()
         {
