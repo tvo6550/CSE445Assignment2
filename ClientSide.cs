@@ -50,7 +50,7 @@ namespace Assignment2
         {
             this.cardNo = card;
         }
-        public void saleOnCars(string plant, int prevAmt, double prevPrice, double curPrice)
+        public void saleOnCars(string plant, int prevAmt, int prevPrice, int curPrice)
         {
             //Figure out how many cars to buy
             int curAmt = (int) ((prevAmt * prevPrice) / curPrice);

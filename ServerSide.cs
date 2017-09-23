@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assignment2
 {
+    public delegate void priceCutEvent(double prevPrice, double curPrice);
     class ServerSide
     {
     }
@@ -17,6 +18,40 @@ namespace Assignment2
             OrderClass orderObj = new OrderClass(tokens[0], Int32.Parse(tokens[1]), tokens[2], Int32.Parse(tokens[3]), Int32.Parse(tokens[4]));
             return orderObj;
         }
+    }
+    public class Plant
+    {
+        static Random rng = new Random();
+        private int stockPrice = rng.Next(5, 10);
+        private static event priceCutEvent priceCut;
+
+        public static void PricingModel(OrderClass order, int stockPrice, int orderAmount)
+        {
+            if(order.getUnitPrice() == 0)
+            {
+                order.setUnitPrice(rng.Next(50, 500));
+            }
+            double prevPrice, curPrice = 0;
+            if (stockPrice > 7 && orderAmount > 5)
+            {
+                order.setUnitPrice(order.getUnitPrice() + 1);
+            }
+            else if (stockPrice <= 7 && orderAmount <= 5)
+            {
+                prevPrice = order.getUnitPrice();
+                curPrice = order.getUnitPrice() - 1;
+                order.setUnitPrice(order.getUnitPrice() - 1);
+                priceCut(prevPrice, curPrice);
+            }
+        }
+
+        public void plantFunc()
+        {
+            OrderClass order = Decoder.decode(Driver.orderBuffer.getOneCell());
+            PricingModel(order, this.stockPrice, order.getAmount());
+
+        }
+
     }
     class OrderProcessing
     {
