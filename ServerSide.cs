@@ -69,7 +69,7 @@ namespace Assignment2
                     }
                 }
 
-                double value = rng.Next(50+p, 500+p);
+                double value = rng.Next(50, 500);
                 Plant.changePrice(name, amountOfUnits, price, value);
             }
         }

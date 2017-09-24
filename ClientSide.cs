@@ -38,9 +38,9 @@ namespace Assignment2
         }
         public void dealerCheckOrder()
         {
-            double orderTotal = 0;
             for(int i = 0; i < 20; i++)
             {
+                double orderTotal = 0;
                 Thread.Sleep(1000);
                 while (orderTotal == 0)
                 {
