@@ -26,7 +26,7 @@ namespace Assignment2
             //Add the dealers into the price cut event to be notified
             Plant.priceCut += new priceCutEvent(dealer.saleOnCars);
             //Start dealer threads to check for order they have
-            for(int i = 0; i < dealerThreads.Length; i++)
+            for (int i = 0; i < dealerThreads.Length; i++)
             {
                 dealerThreads[i] = new Thread(new ThreadStart(() => dealer.dealerCheckOrder()));
                 dealerThreads[i].Name = "Dealer " + (i + 1).ToString();

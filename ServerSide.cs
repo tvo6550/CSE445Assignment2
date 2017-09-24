@@ -69,8 +69,8 @@ namespace Assignment2
                     }
                 }
 
-                double value = rng.Next(50, 500);
-                changePrice(name, amountOfUnits, price, value);
+                double value = rng.Next(50+p, 500+p);
+                Plant.changePrice(name, amountOfUnits, price, value);
             }
         }
 
