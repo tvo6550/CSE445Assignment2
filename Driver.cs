@@ -32,6 +32,13 @@ namespace Assignment2
                 dealerThreads[i].Name = "Dealer " + (i + 1).ToString();
                 dealerThreads[i].Start();
             }
+            //Will iterate until the plant threads have been terminated, then proceeds to termination of dealer threads
+            while (plantThreads[1].IsAlive == true || plantThreads[2].IsAlive || true && plantThreads[0].IsAlive == true)
+            {
+            }
+            //terminate Dealer Threads once the plant threads have terminated
+            for (int i = 0; i < dealerThreads.Length; i++)
+                dealerThreads[i].Abort();
         }
     }
 }
