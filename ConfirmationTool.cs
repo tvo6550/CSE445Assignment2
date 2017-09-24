@@ -34,6 +34,7 @@ namespace Assignment2
     public class confirmationBuffer
     {
         private List<confirmationObject> confirmBuffer = new List<confirmationObject>();
+        //Find the confirmation for a dealer
         public double getConfirm(string dealer)
         {
             lock (confirmBuffer)
@@ -51,6 +52,7 @@ namespace Assignment2
             //Dealer not found
             return 0;
         }
+        //Place a confirmation into the buffer
         public void setConfirm(string dealer, double total)
         {
             lock (confirmBuffer)

@@ -9,25 +9,25 @@ namespace Assignment2
 {
     class MultiCellBuffer
     {
-        private static Semaphore cellsAvailable = new Semaphore(3,3);
+        private static Semaphore cellsAvailable = new Semaphore(0,3);
         private static string[] orders = new string[3];
-        //Position to keep track of order at head
-        private static int position = 0;
 
+        public MultiCellBuffer()
+        {
+            cellsAvailable.Release(3);
+        }
         //Put an order into the buffer
         public void setOneCell(string order)
         {
             cellsAvailable.WaitOne();
             lock (orders)
             {
-                bool placed = false;
-
-                for (int i = 0; i < orders.Length && !placed; i++)
+                for (int i = 0; i < orders.Length; i++)
                 {
                     if (orders[i] == null)
                     {
                         orders[i] = order;
-                        placed = true;
+                        break;
                     }
                 }
             }
@@ -36,24 +36,30 @@ namespace Assignment2
         public string getOneCell()
         {
             string order = "";
-            bool empty = true;
-            //Check if empty
-            for (int i = 0; i < orders.Length; i++){
-                if (orders[i] != null)
-                    empty = false;
-            }
-            if (!empty)
+            lock (orders)
             {
-                while (orders[position] == null)
-                    position = (position + 1) % orders.Length;
-                //Get the order and change the cell to null
-                order = orders[position];
-                orders[position] = null;
-                position = (position + 1) % orders.Length;
-                cellsAvailable.Release();
+                for(int i = 0; i < orders.Length; i++)
+                {
+                    if (orders[i] != null)
+                    {
+                        order = orders[i];
+                        return order;
+                    }
+                }
             }
             return order;
         }
-
+        public void eraseOneCell(string order)
+        {
+            for(int i = 0; i < orders.Length; i++)
+            {
+                if(orders[i] == order)
+                {
+                    cellsAvailable.Release();
+                    orders[i] = null;
+                    break;
+                }
+            }
+        }
     }
 }

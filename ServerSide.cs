@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Assignment2
@@ -14,7 +15,7 @@ namespace Assignment2
     {
         public static OrderClass decode(string order)
         {
-            string[] tokens = order.Split('-');
+            string[] tokens = order.Split('#');
             OrderClass orderObj = new OrderClass(tokens[0], Int32.Parse(tokens[1]), tokens[2], Int32.Parse(tokens[3]), Int32.Parse(tokens[4]));
             return orderObj;
         }
@@ -22,46 +23,58 @@ namespace Assignment2
     public class Plant
     {
         static Random rng = new Random();
-        private int stockPrice; 
-        private static event priceCutEvent priceCut;
+        public static event priceCutEvent priceCut;
         private static int p = 0;
-        private static int plantId = 0;
-        public Plant()
-        {
-            stockPrice = rng.Next(5, 10);
-            plantId++;
-        }
+        private static double price = 250;
+        private static int amountOfUnits = 1000; //default number of units
+        private OrderProcessing op = new OrderProcessing();
+       
         public int getP()
         {
             return p;
         }
 
-        public void pricingModel(OrderClass order, int stockPrice, int orderAmount)
+        public static void changePrice(string plantName, int prevAmount, double prevPrice, double newPrice)
         {
-            if(order.getUnitPrice() == 0)
+            if (newPrice < price)
             {
-                order.setUnitPrice(rng.Next(50, 500));
+                if (priceCut != null)
+                {
+                    Console.WriteLine("price cut for " + plantName + " for " + newPrice);
+                    priceCut(plantName, prevAmount, prevPrice, newPrice);
+                    p++;
+                }
             }
-            double prevPrice, curPrice = 0;
-            if (stockPrice > 7 && orderAmount > 5)
+            price = newPrice;
+        }
+
+        public void pricingModel(string name)
+        {
+            while (p < 20)
             {
-                order.setUnitPrice(order.getUnitPrice() + 1);
-            }
-            else if (stockPrice <= 7 && orderAmount <= 5)
-            {
-                prevPrice = order.getUnitPrice();
-                curPrice = order.getUnitPrice() - 1;
-                order.setUnitPrice(order.getUnitPrice() - 1);
-                priceCut(plantId.ToString(), order.getAmount(), prevPrice, curPrice);
-                p += 1;
+                Console.WriteLine("Thread for" + name);
+                Console.WriteLine("p = " + p);
+                Thread.Sleep(500);
+                string orderDescrip = "";
+                orderDescrip = Driver.orderBuffer.getOneCell();
+                if(orderDescrip != "")
+                {
+                    OrderClass order = Decoder.decode(orderDescrip);
+                    if (name == order.getReceiverId())
+                    {
+                        amountOfUnits = order.getAmount();
+                        Thread orderProc = new Thread(new ThreadStart(() => op.procOrder(order)));
+                        orderProc.Start();
+                        Driver.orderBuffer.eraseOneCell(Encoder.encode(order));
+                    }
+                }
+
+                double value = rng.Next(50, 500);
+                changePrice(name, amountOfUnits, price, value);
             }
         }
 
-        public void plantFunc()
-        {
-            OrderClass order = Decoder.decode(Driver.orderBuffer.getOneCell());
-            pricingModel(order, this.stockPrice, order.getAmount());
-        }
+        
 
     }
     class OrderProcessing

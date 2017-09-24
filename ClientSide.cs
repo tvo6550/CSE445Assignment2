@@ -20,7 +20,7 @@ namespace Assignment2
             string receiverId = order.getReceiverId();
             int amount = order.getAmount();
             double unitPrice = order.getUnitPrice();
-            result = senderId + "-" + cardNo.ToString() + "-" + receiverId + "-" + amount.ToString() + "-" + unitPrice.ToString();
+            result = senderId + "#" + cardNo.ToString() + "#" + receiverId + "#" + amount.ToString() + "#" + unitPrice.ToString();
             return result;
         }
     }
@@ -29,23 +29,28 @@ namespace Assignment2
         private string dealerName;
         private int cardNo;
         private static int count = 1;
+        Random rng = new Random();
         public Dealer()
         {
             this.dealerName = "dealer" + count.ToString();
             count++;
-            Random rng = new Random();
             cardNo = rng.Next(5000, 7000);
         }
         public void dealerCheckOrder()
         {
             double orderTotal = 0;
-            while (orderTotal == 0)
+            for(int i = 0; i < 20; i++)
             {
                 Thread.Sleep(1000);
-                //Pull order from confirmation buffer
-                orderTotal = Driver.confirmBuffer.getConfirm(dealerName);
+                while (orderTotal == 0)
+                {
+                    Thread.Sleep(1000);
+                    Console.WriteLine(Thread.CurrentThread.Name + " is waiting");
+                    //Pull order from confirmation buffer
+                    orderTotal = Driver.confirmBuffer.getConfirm(Thread.CurrentThread.Name);
+                }
+                Console.WriteLine("Order confirmed for " + Thread.CurrentThread.Name + " at a price of " + orderTotal + " is completed.");
             }
-            Console.WriteLine("Order for " + dealerName + " at a price of " + orderTotal + " is completed."); 
         }
         public string getDealerName()
         {
@@ -66,7 +71,9 @@ namespace Assignment2
         {
             //Figure out how many cars to buy
             int curAmt = (int) ((prevAmt * prevPrice) / curPrice);
-            OrderClass newOrder = new OrderClass(dealerName, cardNo, plantName, curAmt, curPrice);
+            int dealerNum = rng.Next(1, 6);
+            OrderClass newOrder = new OrderClass("Dealer " + (dealerNum).ToString(), cardNo, plantName, curAmt, curPrice);
+            //Place order into the buffer
             Driver.orderBuffer.setOneCell(Encoder.encode(newOrder));
         }
     }
